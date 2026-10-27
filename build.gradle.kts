@@ -1,10 +1,8 @@
-import org.jetbrains.kotlin.gradle.internal.config.LanguageFeature
-
 plugins {
-    kotlin("jvm") version "2.1.0"
+    kotlin("jvm") version "2.5.0-Beta2"
 }
 
-group = "com.github.mvukic"
+group = "com.mvukic.aoc"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -12,21 +10,12 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.guava:guava:33.3.1-jre")
+    testImplementation(kotlin("test"))
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
 kotlin {
-    sourceSets.all {
-        languageSettings {
-            enableLanguageFeature(LanguageFeature.WhenGuards.name)
-            enableLanguageFeature(LanguageFeature.MultiDollarInterpolation.name)
-            enableLanguageFeature(LanguageFeature.BreakContinueInInlineLambdas.name)
-        }
-    }
-}
-
-tasks {
-    wrapper {
-        version = "8.11.1"
-    }
+    jvmToolchain(25)
 }

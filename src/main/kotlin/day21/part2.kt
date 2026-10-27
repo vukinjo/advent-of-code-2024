@@ -3,5 +3,7 @@ package com.github.mvukic.day21
 import com.github.mvukic.linesForDay
 
 fun main() {
-    val lines = linesForDay(21)
+    val codes = linesForDay(21).filter { it.isNotBlank() }
+    val chain = KeypadChain(robotKeypads = 25)
+    println(codes.sumOf(chain::complexity))
 }

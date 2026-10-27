@@ -3,34 +3,21 @@ package com.github.mvukic.day4
 import com.github.mvukic.linesForDay
 
 fun main() {
-    val lines = linesForDay(4).map { it.toCharArray() }
-}
+    val lines = linesForDay(4).filter { it.isNotBlank() }.map { it.toCharArray() }
 
-fun countSubmatrixOccurrences(matrix: Array<CharArray>, submatrix: Array<CharArray>): Int {
-    val rows = matrix.size
-    val cols = matrix[0].size
-    val subRows = submatrix.size
-    val subCols = submatrix[0].size
     var count = 0
-
-    for (i in 0 until rows - subRows + 1) {
-        for (j in 0 until cols - subCols + 1) {
-            var found = true
-            for (k in 0 until subRows) {
-                for (l in 0 until subCols) {
-                    if (matrix[i + k][j + l] != submatrix[k][l]) {
-                        found = false
-                        break
-                    }
-                }
-                if (!found) {
-                    break
-                }
-            }
-            if (found) {
-                count++
-            }
+    // Every X-MAS has an 'A' in the middle, so check both diagonals around each inner 'A'
+    for (row in 1 until lines.size - 1) {
+        for (column in 1 until lines[row].size - 1) {
+            if (lines[row][column] != 'A') continue
+            val diagonal1 = "${lines[row - 1][column - 1]}${lines[row + 1][column + 1]}"
+            val diagonal2 = "${lines[row - 1][column + 1]}${lines[row + 1][column - 1]}"
+            if (isMasDiagonal(diagonal1) && isMasDiagonal(diagonal2)) count++
         }
     }
-    return count
+
+    println(count)
 }
+
+// Diagonal ends must be one 'M' and one 'S' (MAS forwards or backwards)
+private fun isMasDiagonal(ends: String) = ends == "MS" || ends == "SM"
